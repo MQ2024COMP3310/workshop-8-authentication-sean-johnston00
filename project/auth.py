@@ -52,6 +52,8 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit() #no validating before pushing 
      # password is in plaintext meaning it is vulnerable to a brute force attack
+     # violates principal 1 and 2
+     
     return redirect(url_for('auth.login'))
 
 @auth.route('/logout')
