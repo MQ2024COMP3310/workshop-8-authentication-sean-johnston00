@@ -37,9 +37,9 @@ def signup():
 def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
-    password = request.form.get('password')
+    password = request.form.get('password') # doesnt validate email and no sanitisation of passwords
 
-    user = db.session.execute(text('select * from user where email = "' + email +'"')).all()
+    user = db.session.execute(text('select * from user where email = "' + email +'"')).all() # no paramaterisation 
     if len(user) > 0: # if a user is found, we want to redirect back to signup page so user can try again
         flash('Email address already exists')  # 'flash' function stores a message accessible in the template code.
         app.logger.debug("User email already exists")
@@ -50,8 +50,8 @@ def signup_post():
 
     # add the new user to the database
     db.session.add(new_user)
-    db.session.commit()
-
+    db.session.commit() #no validating before pushing 
+     # password is in plaintext meaning it is vulnerable to a brute force attack
     return redirect(url_for('auth.login'))
 
 @auth.route('/logout')
